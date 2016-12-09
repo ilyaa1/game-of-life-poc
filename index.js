@@ -21,29 +21,38 @@ const advance = () => {
 };
 
 const tick = () => {
-    let text = `Iteration ${game.iteration}\nAuto-advance is ${game.autoAdvance ? 'ON' : 'OFF'}\n\n`;
+    const { iteration, autoAdvance, interval, world } = game;
+    const autoStatus = autoAdvance ? 'ON' : 'OFF';
     
-    text += displayWorld(game.world);
+    const text = [
+        `Iteration ${iteration}`,
+        `Auto-advance is ${autoStatus}\n`,
+        displayWorld(world),
+    ].join('\n');
     
     document.getElementById('board').textContent = text;
     
-    if (game.autoAdvance) {
+    if (autoAdvance) {
         advance();
     }
     
-    setTimeout(() => tick(), game.interval);
+    setTimeout(() => { tick(); }, interval);
 };
 
-document.getElementById('toggle-auto-advance').addEventListener('click', () => {
-    game.autoAdvance = !game.autoAdvance;
-});
+document.getElementById('toggle-auto-advance')
+    .addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('TAA');
+        game.autoAdvance = !game.autoAdvance;
+    });
 
-document.getElementById('next-gen').addEventListener('click', () => {
-    if (!game.autoAdvance) {
-        advance();
-    }
-});
+document.getElementById('next-gen')
+    .addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (!game.autoAdvance) {
+            advance();
+        }
+    });
 
 tick();
-
-console.log('hello');

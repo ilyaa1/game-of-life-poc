@@ -4,13 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     devtool: 'eval',
-    // devServer: {
-    //     inline: true
-    // },
+    devServer: {
+        inline: true,
+        hot: true,
+    },
     entry: [
         'babel-polyfill',
-        'webpack-hot-middleware/client',
-        'webpack/hot/only-dev-server',
+        // 'webpack-hot-middleware/client',
+        'webpack/hot/dev-server',
         './index',
     ],
     output: {
@@ -23,6 +24,7 @@ module.exports = {
             template: path.resolve(__dirname, 'index.html'),
             filename: 'index.html'
         }),
+        new webpack.HotModuleReplacementPlugin()
     ],
     resolve: {
         modulesDirectories: ['src', 'node_modules'],
